@@ -1,0 +1,603 @@
+/* ==========================================================
+   imawmart - style.css
+   Pendekatan mobile-first: gaya dasar untuk layar kecil,
+   lalu diperluas dengan media query tablet (768px) dan desktop (1024px).
+   ========================================================== */
+
+/* Variabel CSS (custom properties): warna dan ukuran dipusatkan di sini.
+   Mengganti satu nilai di sini mengubah seluruh tampilan. Dipakai lewat var(--nama). */
+:root {
+  --bg: #fff5f8;
+  --surface: #ffffff;
+  --text: #1f2933;
+  --muted: #52606d;
+  --primary: #be185d;
+  --primary-dark: #9d174d;
+  --accent: #b45309;
+  --danger: #b91c1c;
+  --danger-bg: #fef2f2;
+  --success: #166534;
+  --success-bg: #f0fdf4;
+  --border: #e9cfd9;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  /* jarak kiri-kanan header/nav/footer: sejajar dengan isi <main> (maks 1100px) */
+  --gutter: max(16px, calc((100% - 1100px) / 2 + 16px));
+}
+
+/* border-box: lebar elemen sudah termasuk padding dan border, sehingga lebih mudah dihitung
+   dan tidak mudah "meluber" keluar layar. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Pastikan atribut hidden di HTML benar-benar menyembunyikan elemen,
+   walaupun elemen itu punya aturan display lain (flex, block, ...). */
+[hidden] {
+  display: none !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  overflow-wrap: anywhere; /* cegah teks panjang membuat scroll horizontal */
+}
+
+/* Gambar tidak boleh lebih lebar dari wadahnya (kunci agar tidak ada scroll horizontal) */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Wadah isi utama: dibatasi 1100px dan diletakkan di tengah layar */
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ---------- Aksesibilitas ---------- */
+/* Skip link disembunyikan di luar layar (top negatif) dan baru turun saat menerima fokus keyboard */
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -48px;
+  background: var(--text);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  z-index: 100;
+}
+.skip-link:focus {
+  top: 8px;
+}
+
+/* Garis fokus yang jelas untuk pengguna keyboard (muncul saat navigasi dengan Tab) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Header & navigasi ---------- */
+.site-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--primary);
+  color: #fff;
+  padding: 20px var(--gutter);
+}
+
+/* Logo + judul berdampingan; tautan tidak diberi garis bawah dan mewarisi warna putih header */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand img {
+  flex-shrink: 0; /* logo tidak ikut mengecil saat tagline panjang */
+  width: 72px;
+  height: 72px;
+}
+
+.site-header h1 {
+  margin: 0;
+  font-size: 1.75rem;
+}
+
+.tagline {
+  margin: 4px 0 0;
+  opacity: 0.95;
+}
+
+.identity {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.site-nav {
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+.site-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+
+.site-nav a {
+  display: inline-block;
+  padding: 8px 14px;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+}
+
+.site-nav a:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ---------- Section umum ---------- */
+main section {
+  padding: 24px 0 8px;
+}
+
+main h2 {
+  margin: 0 0 12px;
+  font-size: 1.4rem;
+  color: var(--primary-dark);
+}
+
+.section-note {
+  margin: 0 0 16px;
+  color: var(--muted);
+}
+
+/* ---------- Kartu statistik ---------- */
+/* CSS Grid: kartu ringkasan tersusun dalam kolom. Mobile: 1 kolom; tablet ke atas: 3 kolom. */
+.stats-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+.stat-card h3 {
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.stat-value {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.stat-note {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* ---------- Kontrol search & sort ---------- */
+/* Kolom pencarian dan urutan. Mobile: ditumpuk (1 kolom); tablet ke atas: berdampingan (2fr : 1fr). */
+.controls {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.field {
+  margin: 0 0 16px;
+  min-width: 0;
+}
+
+.controls .field {
+  margin: 0;
+}
+
+label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.required,
+.optional {
+  font-weight: 400;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+input[type="text"],
+input[type="search"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font: inherit;
+  color: var(--text);
+  background: #fff;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+}
+
+input[aria-invalid="true"],
+select[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+.hint {
+  display: block;
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Pesan error: memakai ikon + kata "Kesalahan:" + teks, bukan hanya warna merah.
+   ::before menyisipkan teks tambahan lewat CSS di depan isi elemen. */
+.field-error {
+  display: block;
+  margin: 6px 0 0;
+  padding: 6px 10px;
+  color: var(--danger);
+  background: var(--danger-bg);
+  border-left: 4px solid var(--danger);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.field-error::before {
+  content: "\26A0  Kesalahan: ";
+}
+
+.form-success {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  color: var(--success);
+  background: var(--success-bg);
+  border-left: 4px solid var(--success);
+  font-weight: 600;
+}
+
+.form-success::before {
+  content: "\2714  Berhasil: ";
+}
+
+.result-count {
+  margin: 0 0 4px;
+  font-weight: 600;
+}
+
+.last-updated {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* ---------- Tombol ---------- */
+.btn {
+  display: inline-block;
+  padding: 10px 18px;
+  font: inherit;
+  font-weight: 700;
+  color: #fff;
+  background: var(--primary);
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: var(--primary-dark);
+}
+
+/* ---------- Status: loading & error ---------- */
+.status-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  margin: 0 0 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.error-box {
+  flex-direction: column;
+  align-items: flex-start;
+  color: var(--danger);
+  background: var(--danger-bg);
+  border-color: var(--danger);
+}
+
+.error-box p {
+  margin: 0;
+}
+
+/* Indikator loading: lingkaran dengan satu sisi berwarna yang berputar (animasi @keyframes) */
+.spinner {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: putar 0.8s linear infinite;
+}
+
+@keyframes putar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Menghormati pengguna yang mematikan animasi di pengaturan perangkatnya */
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ---------- Grid produk ----------
+   Mobile-first: dasar = 1 kolom. Kolom bertambah lewat media query di bagian bawah file. */
+.product-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* aspect-ratio 1/1 membuat area gambar persegi; object-fit: contain menjaga gambar tidak terpotong */
+.product-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  background: #fdeaf1;
+  border-radius: 8px;
+}
+
+.product-card h3 {
+  margin: 4px 0 0;
+  font-size: 1rem;
+}
+
+.badge {
+  align-self: flex-start;
+  padding: 2px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+  background: #fce7f3;
+  border-radius: 999px;
+}
+
+.badge-warning {
+  color: #7c2d12;
+  background: #ffedd5;
+}
+
+.price {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.meta {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  margin-top: 32px;
+  padding: 20px var(--gutter);
+  background: var(--text);
+  color: #fff;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.site-footer p {
+  margin: 4px 0;
+}
+
+/* ==========================================================
+   TABLET (sekitar 768px ke atas)
+   Media query: aturan di dalamnya hanya berlaku jika lebar layar memenuhi syarat.
+   Di sini layout berubah: header berdampingan, ringkasan 3 kolom, produk 3 kolom.
+   ========================================================== */
+@media (min-width: 768px) {
+  :root {
+    --gutter: max(24px, calc((100% - 1100px) / 2 + 24px));
+  }
+
+  .container {
+    padding: 0 24px;
+  }
+
+  .site-header h1 {
+    font-size: 2rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .controls {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  #request-form {
+    max-width: 560px;
+  }
+}
+
+/* ==========================================================
+   DESKTOP (1024px ke atas)
+   ========================================================== */
+@media (min-width: 1024px) {
+  main h2 {
+    font-size: 1.6rem;
+  }
+}
+
+/* ==========================================================
+   SIDEBAR KIRI (900px ke atas)
+   Header berubah jadi menu di sisi kiri: logo besar di atas, menu di tengah,
+   nama mahasiswa di bagian bawah. Isi halaman ada di kolom kanan.
+   ========================================================== */
+@media (min-width: 900px) {
+  body {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    grid-template-rows: 1fr auto;
+    min-height: 100vh;
+  }
+
+  .site-header {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 24px;
+    padding: 28px 20px 20px;
+  }
+
+  .brand {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .brand img {
+    width: 96px;
+    height: 96px;
+  }
+
+  .site-nav {
+    background: none;
+    border: 0;
+    padding: 0;
+  }
+
+  .site-nav ul {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .site-nav a {
+    display: block;
+    padding: 10px 12px;
+    background: none;
+    border-radius: 8px;
+  }
+
+  .site-nav a:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  .identity {
+    margin-top: auto; /* dorong ke bagian bawah sidebar */
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.35);
+    line-height: 1.6;
+  }
+
+  main.container {
+    grid-column: 2;
+    max-width: none;
+    margin: 0;
+    padding: 0 32px;
+  }
+
+  .site-footer {
+    grid-column: 2;
+    margin-top: 0;
+    padding: 20px 32px;
+  }
+}
+
+/* ==========================================================
+   MOBILE KECIL (480px ke bawah): pastikan satu kolom
+   ========================================================== */
+@media (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
